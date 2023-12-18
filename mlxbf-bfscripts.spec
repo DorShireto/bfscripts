@@ -67,6 +67,8 @@ install -p bfrec             %{installdir}
 install -p man/bfrec.8       %{man8dir}
 install -p bfrshlog          %{installdir}
 install -p man/bfrshlog.8    %{man8dir}
+install -p bfsbdump          %{installdir}
+install -p man/bfsbdump.8    %{man8dir}
 install -p bfsbkeys          %{installdir}
 install -p man/bfsbkeys.8    %{man8dir}
 install -p bfsbverify        %{installdir}
@@ -81,15 +83,19 @@ install -p bfgrubcheck       %{installdir}
 install -p man/bfgrubcheck.8 %{man8dir}
 install -p bfhcafw           %{installdir}
 install -p man/bfhcafw.8     %{man8dir}
+install -p bfup              %{installdir}
+install -p man/bfup.8        %{man8dir}
 
 install -p mlx-mkbfb       %{installdir}
 install -p man/mlx-mkbfb.1 %{man1dir}
 
 install -p -d %{buildroot}%{_unitdir}
 install -p bfvcheck.service %{buildroot}%{_unitdir}/
+install -p bfup.service %{buildroot}%{_unitdir}/
 
 install -p -d %{buildroot}%{_presetdir}
 install -p 80-bfvcheck.preset %{buildroot}%{_presetdir}/
+install -p 80-bfup.preset %{buildroot}%{_presetdir}/
 
 # Install tweak for fwupd on BlueField
 %global fwupdquirkdir %{buildroot}%{_datadir}/fwupd/quirks.d
@@ -98,12 +104,15 @@ install -p mlx-uefi.quirk %{fwupdquirkdir}/
 
 %post
 %systemd_post bfvcheck.service
+%systemd_post bfup.service
 
 %preun
 %systemd_preun bfvcheck.service
+%systemd_preun bfup.service
 
 %postun
 %systemd_postun bfvcheck.service
+%systemd_postun bfup.service
 
 %files
 %license LICENSE
@@ -112,7 +121,9 @@ install -p mlx-uefi.quirk %{fwupdquirkdir}/
 %attr(644, root, root) %{_mandir}/man1/*
 %attr(644, root, root) %{_mandir}/man8/*
 %attr(644, root, root) %{_unitdir}/bfvcheck.service
+%attr(644, root, root) %{_unitdir}/bfup.service
 %attr(644, root, root) %{_presetdir}/80-bfvcheck.preset
+%attr(644, root, root) %{_presetdir}/80-bfup.preset
 %attr(644, root, root) %{_datadir}/fwupd/quirks.d/mlx-uefi.quirk
 
 %doc README.md
